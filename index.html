@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweep by AstraLux | Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+  /* ------------------ ROOT VARIABLES ------------------ */
+:root {
+  --bg-light: #F5F3EF;
+  --text-dark: #315C57;
+  --accent-dark: #3B8A78;
+  --accent-hover: #C6E5E4;
+  --accent-border: #0A181F;
+  --footer-light: #F8C7B2;
+  --footer-strip: #F8C7B2;
+  --modal-overlay: rgba(10, 15, 44, 0.9);
+  --white: #F5F5F5;
+}
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Oswald', sans-serif;
+      background-color: #FAF5EB;
+      color: var(--text-dark);
+    }
+
+    h1, h2, h3,
+    nav.desktop-nav a,
+    .nav-menu a,
+    .copyright p,
+    #typewriter-text {
+      font-family: 'Oswald', sans-serif;
+    }
+
+    /* ------------------ NAVIGATION ------------------ */
+    nav.desktop-nav {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      z-index: 1000;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    nav.desktop-nav a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    nav.desktop-nav a:hover {
+      background-color: #DE8B4D;
+      color: #0A181F;
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 999;
+    }
+
+    .nav-toggle {
+      width: 50px;
+      height: 50px;
+      background-color: var(--bg-light);
+      border: 2px solid var(--text-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-lines {
+      width: 20px;
+      height: 2px;
+      background-color: var(--text-dark);
+      position: relative;
+    }
+
+    .nav-lines::before,
+    .nav-lines::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 2px;
+      background-color: var(--text-dark);
+      left: 0;
+    }
+
+    .nav-lines::before {
+      top: -6px;
+    }
+
+    .nav-lines::after {
+      top: 6px;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: #FAF5EB;
+      border: 4px double;
+      border-color: #315C57;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      transition: all 0.4s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding-top: 4rem;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .nav-menu.open {
+      width: 250px;
+      height: 360px;
+      border-radius: 50% / 40%;
+      opacity: 1;
+      pointer-events: auto;
+      padding-top: 4rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-menu a {
+      color: var(--text-dark);
+      text-decoration: none;
+      margin: 0.75rem 0;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    /* ------------------ TITLE & WELCOME ------------------ */
+    .title-section {
+      text-align: center;
+      margin-top: 8rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .title-section h1 {
+      font-size: 56px;
+      font-weight: 900;
+      color: #315C57;
+    }
+
+    .title-section h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      color: #0A181F;
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 20px;
+      margin: 4rem 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    #typewriter-text::after {
+      content: '|';
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ------------------ LOGIN PORTAL ------------------ */
+
+.login-portal {
+  max-width: 400px;
+  margin: 3rem auto;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+
+.login-portal input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.login-portal button {
+  background-color: #315C57;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.login-portal button:hover {
+  background-color: #3B8A78;
+}
+
+/* ------------------ Logout Modal ------------------ */
+  .logout-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logout-modal-content {
+    background: #fffbe6;
+    border: 1px solid #ffcc00;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .logout-progress-container {
+    width: 100%;
+    background: #f1f1f1;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+    height: 8px;
+  }
+
+  .logout-progress-bar {
+    height: 8px;
+    background: #ff3b30;
+    width: 100%;
+    transition: width 1s linear;
+  }
+
+  .stay-logged-in-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .stay-logged-in-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f9f9fb;
+    padding: 1rem;
+  }
+  .auth-box {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 400px;
+  }
+  .auth-box h2 { text-align: center; margin-bottom: 1.5rem; }
+  .auth-form { display: flex; flex-direction: column; gap: 1rem; }
+  .auth-form input, .auth-form button {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .auth-form button {
+    background-color: #3366ff;
+    color: white;
+    font-weight: bold;
+  }
+  .auth-form a { text-align: center; font-size: 0.9rem; color: #3366ff; }
+  .social-login { text-align: center; margin-top: 1rem; }
+  .social-btn {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+  }
+  .social-btn.google { background: #db4437; }
+  .social-btn.apple { background: #333; }
+  .status-msg {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+    .status-success {
+    color: green;
+  }
+
+  .status-error {
+    color: red;
+  }
+
+  /* Fade-in/out animation */
+  .fade-in-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .fade-in-out.show {
+    opacity: 1;
+  }
+
+  .info-box {
+    background: #ffeeba;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+    color: #856404;
+  }
+
+/* 📧 Resend Verification Email Form */
+.resend-box {
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  text-align: center;
+  color: #856404;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.resend-box input[type="email"] {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.resend-box button {
+  background-color: #3366ff;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.resend-box button:hover {
+  background-color: #254eda;
+}
+
+  .hidden { display: none; }
+  @media (max-width: 480px) {
+    .auth-box { padding: 1rem; }
+  }
+
+/* Forgot Password UI */
+.forgot-password-box {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+
+.forgot-password-box input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.forgot-password-box button {
+  background-color: #315C57;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.forgot-password-box button:hover {
+  background-color: #3B8A78;
+}
+
+.status-success {
+  color: green;
+  margin-top: 0.5rem;
+}
+.status-error {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+    /* ------------------ FOOTER ------------------ */
+    .footer-strip {
+      background-color: #F8C7B2;
+      height: 60px;
+      width: 100%;
+    }
+
+    footer {
+      background-color: #D5B79F;
+      text-align: center;
+      padding: .1rem 1rem 2rem;
+    }
+
+    .icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .icons img {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin-top: 14rem;
+    }
+
+    .icons img:hover {
+      transform: scale(1.15);
+    }
+
+    .copyright p {
+      font-size: 12px;
+      color: #315C57;
+    }
+
+    /* ------------------ SCROLL REVEAL ------------------ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s ease-out;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    /* ------------------ RESPONSIVE ------------------ */
+    @media (max-width: 800px) {
+      nav.desktop-nav {
+        display: none;
+      }
+
+      .mobile-nav {
+        display: block;
+      }
+
+      .title-section h1 {
+        font-size: 30px;
+      }
+
+      .title-section h2 {
+        font-size: 18px;
+      }
+
+      .welcome {
+        font-size: 16px;
+      }
+
+      .nav-menu a {
+        font-size: 0.95rem;
+      }
+
+      .icons img {
+        width: 40px;
+        height: 40px;
+        margin-top: 14rem;
+      }
+    }
+  </style>
+  <meta name="google-adsense-account" content="ca-pub-8903217643303301">
+</head>
+<body>
+
+  <div class="title-section">
+    <h1>Sweep by AstraLux</h1>
+    <h2>Log In to Streamline and Classify with Precision</h2>
+  </div>
+
+  <!-- ✅ Responsive Auth UI with Social Login & Email Notice -->
+<div class="auth-wrapper">
+  <div class="auth-box">
+    <h2>Welcome to Script</h2>
+
+    <!-- Status Message -->
+    <p id="auth-status" class="status-msg"></p>
+
+    <!-- Login Form -->
+    <form id="login-form" class="auth-form">
+      <input type="text" id="login-username" placeholder="Username or Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p><a href="#" id="toggle-to-register">Create an account</a></p>
+      <label>
+        <input type="checkbox" id="remember-me"> Remember Me
+      </label>      
+    </form>
+
+    <!-- 2FA OTP Form (Initially Hidden) -->
+<form id="otp-form" class="auth-form hidden">
+  <h3>Two-Factor Authentication</h3>
+  <input type="text" id="otp-code" placeholder="Enter your authentication code" required />
+  <button type="submit">Verify</button>
+  <p><a href="#" id="otp-cancel">Cancel</a></p>
+  <p id="otp-status" class="status-msg"></p>
+</form>
+
+
+    <!-- Register Form (Hidden initially) -->
+    <form id="register-form" class="auth-form hidden">
+      <input type="text" id="reg-username" placeholder="Username" required />
+      <input type="email" id="reg-email" placeholder="Email" required />
+      <input type="password" id="reg-password" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+      <p><a href="#" id="toggle-to-login">Already have an account?</a></p>
+    </form>
+
+    <!-- Resend Verification Form -->
+    <form id="resend-form" class="auth-form hidden">
+      <input type="email" id="resend-email" placeholder="Enter your email" required />
+      <button type="submit">Resend Verification Email</button>
+      <p><a href="#" id="toggle-to-login-from-resend">Back to login</a></p>
+      <p id="resend-status" class="status-msg" style="margin-top: 0.5rem;"></p>
+
+    </form>
+
+    <!-- Social Logins -->
+    <div class="social-login">
+      <p>Or sign in with:</p>
+      <a href="/auth/login/google/" class="social-btn google">Google</a>
+      <a href="/auth/login/apple/" class="social-btn apple">Apple</a>
+    </div>
+
+    <!-- Email Verification Info -->
+    <div id="verify-note" class="info-box hidden">
+      📧 Please verify your email address. Check your inbox!
+    </div>
+  </div>
+</div>
+
+<!-- Admin Panel Link (Visible to Admins) -->
+<div id="admin-link" class="hidden" style="text-align:center; margin-top: 1rem;">
+  <a href="/admin-dashboard.html">⚙️ Go to Admin Dashboard</a>
+</div>
+
+<!-- Sidebar User Info -->
+<div id="sidebar-user" class="hidden" style="text-align:center; margin-top:1rem;">
+  <img id="user-avatar" src="" alt="avatar" style="width:50px; height:50px; border-radius:50%; display:block; margin:0 auto 0.5rem;">
+  <div id="user-info"></div>
+</div>
+
+<!-- Admin Dashboard Widgets -->
+<div id="admin-metrics" class="hidden" style="margin-top:2rem; padding:1rem; background:#eef;">
+  <h3>📊 Admin Metrics</h3>
+  <ul>
+    <li id="user-count">Total users: ...</li>
+    <li id="pending-verifications">Pending verifications: ...</li>
+    <li id="banned-users">Banned accounts: ...</li>
+  </ul>
+</div>
+    
+  <div class="footer-strip"></div>
+  <footer>
+    <div class="icons">
+      <div class="icon-img-2">
+        <a href="anwanitools.com" target="_blank">
+          <img src="AL Logo Primary Transparent Mineral Green.png" alt="AL Icon" />        </a>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; AstraLux Systems 2025.</p>
+    </div>
+  </footer>
+
+<!-- Auto-Logout Countdown Modal -->
+<div id="logout-modal" class="logout-modal">
+  <div class="logout-modal-content">
+    <p id="logout-countdown-text">Logging out soon...</p>
+    <div class="logout-progress-container">
+      <div id="logout-progress" class="logout-progress-bar"></div>
+    </div>
+    <button id="stay-logged-in" class="stay-logged-in-btn">Stay Logged In</button>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const API_BASE = "https://anwaniappbackend.onrender.com";
+
+  const loginForm = document.getElementById("login-form");
+  const otpForm = document.getElementById("otp-form");
+  const authStatus = document.getElementById("auth-status");
+  const otpStatus = document.getElementById("otp-status");
+  let temp2faToken = null; // Store temporary token from backend after step 1
+
+  loginForm?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    authStatus.textContent = "";
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/login/`, {  // adjust endpoint to your backend login
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        if (data.two_factor_required) {
+          // Backend says 2FA is needed
+          temp2faToken = data.temp_token;  // save temp token for 2FA verification
+          loginForm.classList.add("hidden");
+          otpForm.classList.remove("hidden");
+          otpStatus.textContent = "Please enter your authentication code.";
+        } else {
+          // Normal login success, save tokens and redirect
+          saveTokens(data.access, data.refresh);
+          window.location.href = "/dashboard";
+        }
+      } else {
+        authStatus.textContent = data.detail || "Login failed";
+      }
+    } catch (err) {
+      console.error(err);
+      authStatus.textContent = "An error occurred. Please try again.";
+    }
+  });
+
+  otpForm?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    otpStatus.textContent = "";
+    const otpCode = document.getElementById("otp-code").value;
+
+    if (!temp2faToken) {
+      otpStatus.textContent = "No 2FA session found. Please login again.";
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/2fa-verify/`, {  // adjust endpoint for 2FA verify
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ temp_token: temp2faToken, otp_code: otpCode })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        saveTokens(data.access, data.refresh);
+        window.location.href = "/dashboard";
+      } else {
+        otpStatus.textContent = data.detail || "Invalid authentication code.";
+      }
+    } catch (err) {
+      console.error(err);
+      otpStatus.textContent = "An error occurred. Please try again.";
+    }
+  });
+
+  document.getElementById("otp-cancel")?.addEventListener("click", function(e) {
+    e.preventDefault();
+    otpForm.classList.add("hidden");
+    loginForm.classList.remove("hidden");
+    authStatus.textContent = "";
+    otpStatus.textContent = "";
+  });
+});
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const API_BASE = "https://anwaniappbackend.onrender.com";
+
+    // 🔑 Handle login form submission
+    const loginForm = document.getElementById("login-form");
+    const authStatus = document.getElementById("auth-status");
+
+    if (loginForm) {
+      loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const username = document.getElementById("login-username").value;
+        const password = document.getElementById("login-password").value;
+        const rememberMe = document.getElementById("remember-me")?.checked || false;
+
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            saveTokens(data.access, data.refresh, rememberMe);
+            window.location.href = "/dashboard";
+          } else {
+            authStatus.textContent = data.message || "Login failed";
+          }
+        } catch (err) {
+          console.error("Login error:", err);
+          authStatus.textContent = "An error occurred. Please try again.";
+        }
+      });
+    }
+
+    // 📧 Resend verification logic with fade in/out
+    const verifyNote = document.getElementById("verify-note");
+    if (verifyNote) {
+      verifyNote.insertAdjacentHTML("beforeend", `
+        <form id="resend-form" class="auth-form" style="margin-top:1rem;">
+          <input type="email" id="resend-email" placeholder="Enter your email" required />
+          <button type="submit">Resend Verification Email</button>
+          <p id="resend-status" class="status-msg fade-in-out" style="margin-top: 0.5rem;"></p>
+        </form>
+      `);
+
+      const resendForm = document.getElementById("resend-form");
+      const resendStatus = document.getElementById("resend-status");
+
+      resendForm?.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const email = document.getElementById("resend-email").value;
+
+        resendStatus.textContent = "Sending...";
+        resendStatus.className = "status-msg fade-in-out show";
+
+        try {
+          const response = await fetch(`${API_BASE}/resend-verification/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            resendStatus.textContent = "✅ Verification email sent! Check your inbox.";
+            resendStatus.className = "status-msg status-success fade-in-out show";
+          } else {
+            resendStatus.textContent = data.error || "Something went wrong.";
+            resendStatus.className = "status-msg status-error fade-in-out show";
+          }
+        } catch (err) {
+          console.error("Resend error:", err);
+          resendStatus.textContent = "An error occurred. Please try again.";
+          resendStatus.className = "status-msg status-error fade-in-out show";
+        }
+
+        setTimeout(() => {
+          resendStatus.classList.remove("show");
+          setTimeout(() => {
+            resendStatus.textContent = "";
+            resendStatus.className = "status-msg fade-in-out";
+          }, 500);
+        }, 5000);
+      });
+    }
+
+    // 🍪 Cookie helpers
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/; Secure; SameSite=Strict`;
+    }
+
+    function getCookie(name) {
+      return document.cookie.split("; ").find(row => row.startsWith(name + "="))?.split("=")[1];
+    }
+
+    function deleteCookie(name) {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    }
+
+    function getAccessToken() {
+      return getCookie("access_token");
+    }
+
+    function getRefreshToken() {
+      return getCookie("refresh_token");
+    }
+
+    function saveTokens(access, refresh, remember = false) {
+      const accessExpiry = remember ? 7 : 1;
+      const refreshExpiry = remember ? 30 : 7;
+      setCookie("access_token", access, accessExpiry);
+      setCookie("refresh_token", refresh, refreshExpiry);
+    }
+
+    function clearTokens() {
+      deleteCookie("access_token");
+      deleteCookie("refresh_token");
+      localStorage.clear();
+      bc.postMessage("logout");
+    }
+
+    async function revokeRefreshToken() {
+      const refresh = getRefreshToken();
+      if (!refresh) return;
+      try {
+        await fetch(`${API_BASE}/api/token/blacklist/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refresh }),
+        });
+      } catch (err) {
+        console.warn("Token revocation failed:", err);
+      }
+    }
+
+    async function refreshAccessToken() {
+      const refresh = getRefreshToken();
+      if (!refresh) return false;
+      try {
+        const res = await fetch(`${API_BASE}/api/token/refresh/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refresh }),
+        });
+        if (!res.ok) throw new Error("Refresh failed");
+        const data = await res.json();
+        saveTokens(data.access, refresh);
+        updateTokenExpiry(data.access);
+        return true;
+      } catch {
+        clearTokens();
+        window.location.href = "login.html";
+        return false;
+      }
+    }
+
+    async function authorizedFetch(url, options = {}, retry = true) {
+      options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${getAccessToken()}`,
+      };
+      const res = await fetch(url, options);
+      if (res.status === 401 && retry) {
+        const refreshed = await refreshAccessToken();
+        if (refreshed) return authorizedFetch(url, options, false);
+      }
+      return res;
+    }
+
+    function updateTokenExpiry(token) {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const expiryDate = new Date(payload.exp * 1000);
+      const el = document.getElementById("token-expiry");
+      if (el) el.textContent = `Token expires at: ${expiryDate.toLocaleString()}`;
+    }
+
+    const bc = new BroadcastChannel("auth_channel");
+    bc.onmessage = (event) => {
+      if (event.data === "logout") {
+        clearTokens();
+        window.location.href = "login.html";
+      }
+    };
+
+    const toggleToRegister = document.getElementById("toggle-to-register");
+    const toggleToLogin = document.getElementById("toggle-to-login");
+    const registerForm = document.getElementById("register-form");
+
+    if (toggleToRegister && toggleToLogin) {
+      toggleToRegister.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+      });
+
+      toggleToLogin.addEventListener("click", (e) => {
+        e.preventDefault();
+        registerForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+      });
+    }
+
+    let inactivityTimer, warningTimer, countdownInterval;
+    const logoutAfter = 60 * 60 * 1000;
+    const warningBefore = 5 * 60 * 1000;
+    const countdownText = document.getElementById("logout-countdown-text");
+    const progressEl = document.getElementById("logout-progress");
+    const modal = document.getElementById("logout-modal");
+    const stayLoggedInBtn = document.getElementById("stay-logged-in");
+
+    function startCountdown(duration) {
+      let remaining = duration;
+      modal.style.display = "flex";
+      progressEl.style.width = "100%";
+
+      countdownInterval = setInterval(() => {
+        remaining -= 1000;
+        const percent = (remaining / duration) * 100;
+        progressEl.style.width = `${percent}%`;
+        countdownText.textContent = `Logging out in ${Math.ceil(remaining / 1000)}s...`;
+        if (remaining <= 0) clearInterval(countdownInterval);
+      }, 1000);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      clearTimeout(warningTimer);
+      clearInterval(countdownInterval);
+      modal.style.display = "none";
+
+      warningTimer = setTimeout(() => startCountdown(warningBefore), logoutAfter - warningBefore);
+      inactivityTimer = setTimeout(() => {
+        clearTokens();
+        alert("🔒 Logged out due to inactivity.");
+        window.location.href = "login.html";
+      }, logoutAfter);
+    }
+
+    stayLoggedInBtn?.addEventListener("click", resetInactivityTimer);
+    document.addEventListener("mousemove", resetInactivityTimer);
+    document.addEventListener("keydown", resetInactivityTimer);
+    resetInactivityTimer();
+
+    setInterval(() => {
+      if (getRefreshToken()) refreshAccessToken();
+    }, 5 * 60 * 1000);
+
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = `${API_BASE}/silent-refresh`;
+    document.body.appendChild(iframe);
+
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    if (navToggle && navMenu) {
+      navToggle.addEventListener("click", () => navMenu.classList.toggle("open"));
+    }
+
+    console.info("✅ Auth, login, resend, remember me, token refresh, and inactivity logout initialized.");
+  });
+</script>
+</body>
+</html>

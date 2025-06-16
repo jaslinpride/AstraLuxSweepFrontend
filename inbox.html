@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweep by AstraLux | Inbox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+/* ------------------ ROOT VARIABLES ------------------ */
+:root {
+  --bg-light: #F5F3EF;
+  --text-dark: #00504F;
+  --accent-dark: #3B8A78;
+  --accent-hover: #C6E5E4;
+  --accent-border: #0A181F;
+  --footer-light: #123D3C;
+  --footer-strip: #F8C7B2;
+  --modal-overlay: rgba(10, 15, 44, 0.9);
+  --white: #F5F5F5;
+}
+
+/* ------------------ RESET ------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Oswald', sans-serif;
+  background-color: #FAF5EB;
+  color: var(--text-dark);
+}
+
+h1, h2, h3,
+nav.desktop-nav a,
+.nav-menu a,
+.copyright p,
+#typewriter-text {
+  font-family: 'Oswald', sans-serif;
+}
+
+/* ------------------ NAVIGATION ------------------ */
+
+.floating-nav {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(245, 245, 245, 0.8); /* 80% opaque */
+  border-radius: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+}
+
+.floating-nav .nav-item {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  transition: background 0.2s ease, transform 0.2s ease;
+  border-radius: 50%;
+}
+
+.floating-nav .nav-item:hover {
+  background-color: rgba(0, 80, 79, 0.1); /* highlight on tap */
+  transform: scale(1.1);
+}
+
+.floating-nav .nav-item img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Hide original navbars */
+.desktop-nav,
+.mobile-nav {
+  display: none !important;
+}
+
+/* ------------------ TITLE & WELCOME ------------------ */
+.title-section {
+  text-align: right;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;     /* aligns content to the right inside the flex container */
+  justify-content: flex-start;
+  width: fit-content;
+  margin-left: auto;         /* pushes content to the right */
+  margin-right: 1rem;        /* adds space from the right edge */
+}
+
+.title-section h1 {
+  font-size: 30px;
+  font-weight: 900;
+  color: #00504F;
+  margin-bottom: 1rem; /* Adds space below title */
+}
+
+.title-section h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0A181F;
+  opacity: 0.85; /* Subtle visual separation */
+  margin-top: 0;   /* Reset default margin */
+  margin-bottom: 1rem;
+}
+
+.welcome {
+  text-align: center;
+  font-size: 20px;
+  margin: 4rem 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.nairobi-map {
+  display: block;
+  margin: 2rem auto;
+  width: 300px;
+  max-width: 90%;
+  height: auto;
+  border-radius: 8px; /* Optional: rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Optional: soft shadow */
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Sidebar */#FAF5EB
+    .inbox-sidebar {
+        width: 280px;
+        background-color: #FAF5EB;
+        border-right: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem; /* Increased from 1rem to add more spacing */
+        box-sizing: border-box;
+    }
+
+    .search-bar {
+        padding: 0.75rem 0.75rem 0.75rem 1rem;    /* Internal spacing inside the input */
+        margin-bottom: 1.5rem;    /* Adds more space below the input */
+        margin-left: 0.25rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 90%;
+        font-size: 1rem;
+    }
+
+    .thread-list {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-left: 0.5rem;  /* adds space on the left */
+        padding-right: 0.5rem; /* optional: consistent right padding */
+    }
+
+    .thread-item {
+        padding: 0.75rem 0.75rem 0.75rem 1rem; /* add left padding */
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease, font-size 0.2s ease;
+        border-radius: 6px;
+    }
+
+    .thread-item:hover {
+        background-color: rgba(0, 80, 79, 0.1);
+        transform: scale(1.02);
+    }
+
+    .inbox-container {
+        display: flex;
+        height: 600px; /* or whatever height fits your layout */
+        max-height: 80vh;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+    }
+
+
+    /* Main Message Panel */
+    .message-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      box-sizing: border-box;
+      background-color: var(--white);
+    }
+
+    .message-thread {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+        background-color: #F0F0F0;
+        border-radius: 10px;
+        /* Add height or ensure parent has flex constraints */
+        max-height: 400px; /* Or use a relative value like 60vh */
+    }
+
+    .message-pill {
+        padding: 0.75rem 1rem;
+        border-radius: 999px;
+        max-width: 70%;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+
+    .message-pill.sent {
+      align-self: flex-end;
+      background-color: #E0E0E0;
+      color: black;
+    }
+
+    .message-pill.received {
+      align-self: flex-start;
+      background-color: #D6D6D6;
+    }
+
+    .message-input {
+      display: flex;
+      margin-top: 1rem;
+      gap: 0.5rem;
+    }
+
+    .message-input input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .message-input button {
+      background-color: #E0E0E0;
+      color: black;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .message-input button:hover {
+      background-color: #669999;
+    }
+
+/* ------------------ PRODUCT CONTENT ------------------ */
+.product-card {
+  background-color: var(--white);
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--text-dark); /* Main text color */
+}
+
+.product-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--accent-dark); /* Stronger visual emphasis */
+}
+
+.product-text {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #0A181F;
+  opacity: 0.9;
+}
+
+.cta-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.cta-button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--text-dark);
+  color: var(--bg-light);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.cta-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  border-color: var(--accent-border);
+}
+
+/* ------------------ MODAL ------------------ */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--modal-overlay);
+}
+
+.modal-content {
+  background-color: var(--bg-light);
+  margin: 10% auto;
+  padding: 2rem;
+  border: 2px solid var(--accent-border);
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.close {
+  color: var(--accent-dark);
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.confirmation-message {
+  display: none;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--accent-hover);
+  color: var(--bg-light);
+  border-radius: 8px;
+  font-weight: bold;
+  animation: flash 0.4s ease-in-out;
+}
+
+/* ------------------ DETAILS ------------------ */
+.details-scroller {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.details-scroller > div {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.details-card {
+  background-color: #FAF5eb;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 5px solid #00504F;
+  transition: transform 0.2s;
+}
+
+.details-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0A181F;
+  margin-bottom: 0.5rem;
+}
+
+.details-card p,
+.details-card li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #0A181F;
+  opacity: 0.9;
+}
+
+.details-scroller li {
+  text-align: left;
+  margin-left: 1em;
+  list-style-position: inside;
+}
+
+.logo-container {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1100;
+  cursor: pointer;
+}
+
+.logo-container img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+}
+
+.logo-container img:hover {
+  transform: scale(1.2);
+}
+
+/* Sidebar Menu Styles */
+.sidebar-menu {
+  position: fixed;
+  top: 3rem;
+  left: -260px;
+  width: 240px;
+  height: calc(100% - 6rem);
+  background-color: rgba(245, 245, 245, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: left 0.3s ease-in-out;
+  z-index: 1050;
+  border-radius: 0 12px 12px 0;
+}
+
+.sidebar-menu a {
+  color: #315C57;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.sidebar-menu a:hover {
+  color: #DE8B4D;
+}
+
+.close-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.close-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Active class to slide in */
+.sidebar-open {
+  left: 0;
+}
+
+/* ------------------ PULSE ------------------ */
+.pulse {
+  animation: pulseAnim 0.6s ease-in-out;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(1); color: inherit; }
+  50% { transform: scale(1.3); color: red; }
+  100% { transform: scale(1); color: inherit; }
+}
+
+/* ------------------ FOOTER ------------------ */
+.footer-strip {
+  background-color: #F8C7B2;
+  height: 60px;
+  width: 100%;
+}
+
+footer {
+  background-color: #D5B79F;
+  text-align: center;
+  padding: .1rem 1rem 2rem;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.icons img {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-top: 14rem;
+}
+
+.icons img:hover {
+  transform: scale(1.15);
+}
+
+.copyright p {
+  font-size: 12px;
+  color: #F5F5F5;
+}
+
+/* ------------------ SCROLL REVEAL ------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s ease-out;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* ------------------ RESPONSIVE ------------------ */
+@media (max-width: 800px) {
+  nav.desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .title-section h1 {
+    font-size: 30px;
+  }
+
+  .title-section h2 {
+    font-size: 18px;
+  }
+
+  .welcome {
+    font-size: 16px;
+  }
+
+  .nav-menu a {
+    font-size: 0.95rem;
+  }
+
+  .product-card {
+    max-width: 95%;
+    padding: 1.5rem;
+    max-height: 80vh;
+  }
+
+  .details-scroller {
+    grid-template-columns: 1fr;
+  }
+
+  .details-card {
+  background-color: #FAF5eb;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 5px solid #00504F;
+  transition: transform 0.2s;
+}
+
+.details-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0A181F;
+  margin-bottom: 0.5rem;
+}
+
+.details-card p,
+.details-card b,
+.details-card i,
+.details-card li {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #0A181F;
+  opacity: 0.9;
+}
+
+  .icons img {
+    width: 48px;
+    height: 48px;
+    margin-top: 14rem;
+  }
+}
+
+  </style>
+  <meta name="google-adsense-account" content="ca-pub-8903217643303301">
+</head>
+<body>
+  <!-- Notification Sound -->
+  <audio id="notif-sound" src="notification.mp3" preload="auto"></audio>
+
+    <div class="logo-container" id="logoTrigger">
+        <img src="AL Logo Primary Transparent Mineral Green.png" alt="AL Logo">
+      </div>      
+      <!-- Slide-out sidebar -->
+      <div class="sidebar-menu" id="sidebarMenu">
+        <img src="Sweep Close Icon.png" alt="Close Sidebar" id="closeSidebar" class="close-icon">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="sweep.html">Sweep</a>
+        <a href="inbox.html">Inbox</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="terms.html">Terms & Conditions</a>
+        <button id="logout-btn-sidebar" style="
+          background-color: #DE8B4D;
+          color: white;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          font-weight: bold;
+          cursor: pointer;
+          text-align: left;
+          width: fit-content;
+        ">
+          Log Out
+        </button>
+      </div>               
+    <nav class="floating-nav">
+            <a href="dashboard.html" class="nav-item"><img src="Sweep Dashboard Icon.png" alt="DashboardIcon"/></a>
+            <a href="sweep.html" class="nav-item"><img src="Script Script Icon.png" alt="ScriptIcon"/></a>
+            <a href="inbox.html" class="nav-item">
+              <img src="Sweep Inbox Icon.png" alt="InboxIcon" />
+              <span id="unread-count"></span>
+            </a>            
+            <a href="profile.html" class="nav-item"><img src="Anwani Profile Icon.png" alt="ProfileIcon"/></a>
+    </nav>
+
+  <div class="title-section">
+    <h1>Inbox</h1>
+  </div>
+
+<!-- Inbox -->
+<div class="product-card">
+    <div class="product-title"></div>
+    <div class="product-text">
+      <i></i><br><br>
+    </div>
+  
+   <!-- Inbox Flex Container -->
+<div class="inbox-container">
+  
+    <!-- Sidebar -->
+    <div class="inbox-sidebar">
+      <input class="search-bar" type="text" placeholder="Search messages...">
+      <div class="thread-list" id="thread-list">
+        <div class="thread-item">John Doe</div>
+        <div class="thread-item">Jaslin Pride</div>
+        <div class="thread-item">Sam Ellison</div>
+        <div class="thread-item">Script Administrator</div>
+      </div>
+    </div>
+  
+    <!-- Message Panel -->
+    <div class="message-panel">
+      <div class="message-thread">
+        <div class="message-pill received">Hey Jaslin, do you have a minute? I'm not sure which 
+            category this vendor contract falls under — Legal or Procurement?</div>
+        <div class="message-pill sent">Sure, send it over. If it’s focused on terms, liability, 
+            or compliance, it’s likely Legal. If it's more about pricing, delivery, or vendor 
+            selection, probably Procurement.</div>
+        <div class="message-pill received">Got it. It looks like it covers both. Want me to tag 
+            it under both categories?</div>
+        <div class="message-pill sent">Yeah, go ahead and tag both. We’ll build a dual-category 
+            flag for documents like this in the next update. Thanks for catching it.</div>
+      </div>
+  
+      <div class="message-input">
+        <input id="message-input" type="text" placeholder="Type your message..." />
+        <button id="send-message-btn">Send</button>
+      </div>      
+    </div>
+  </div>
+</div>
+  
+<!-- Footer Strip -->
+<div class="footer-strip"></div>
+
+<!-- Footer -->
+  <footer>
+</footer>
+
+<audio id="notif-sound" src="notification.mp3" preload="auto"></audio>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const API_BASE = "https://anwaniappbackend.onrender.com/api";
+    let currentThreadId = null;
+    let lastUnreadCount = 0;
+
+    function getAuthHeaders() {
+      const token = getCookie("access_token");
+      return {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+    }
+
+    function getCookie(name) {
+      return document.cookie.split("; ").find(row => row.startsWith(name + "="))?.split("=")[1];
+    }
+
+    function getCurrentUserId() {
+      return parseInt(localStorage.getItem("user_id"), 10);
+    }
+
+    function formatTimestamp(isoString) {
+      const date = new Date(isoString);
+      return date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+
+    async function loadThreads() {
+      const res = await fetch(`${API_BASE}/messaging/threads/`, {
+        headers: getAuthHeaders(),
+      });
+      const data = await res.json();
+      const threadList = document.getElementById("thread-list");
+      if (!threadList) return;
+
+      threadList.innerHTML = "";
+      data.results.forEach((thread) => {
+        const div = document.createElement("div");
+        div.className = "thread-item";
+        div.textContent = thread.name || `Thread #${thread.id}`;
+        div.onclick = () => loadMessages(thread.id);
+        threadList.appendChild(div);
+      });
+    }
+
+    async function loadMessages(threadId) {
+      currentThreadId = threadId;
+
+      await fetch(`${API_BASE}/messaging/threads/${threadId}/mark-read/`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+      });
+
+      const res = await fetch(`${API_BASE}/messaging/threads/${threadId}/messages/`, {
+        headers: getAuthHeaders(),
+      });
+      const data = await res.json();
+      const container = document.querySelector(".message-thread");
+      if (!container) return;
+
+      container.innerHTML = "";
+      data.results.forEach((msg) => {
+        const div = document.createElement("div");
+        div.className = "message-pill " + (msg.sender.id === getCurrentUserId() ? "sent" : "received");
+        div.innerHTML = `
+          <p>${msg.content}</p>
+          <small style="font-size: 0.75rem; display: block; margin-top: 0.5rem; opacity: 0.7;">
+            ${formatTimestamp(msg.timestamp)}
+          </small>
+        `;
+        container.appendChild(div);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.querySelector(".message-input input");
+      if (!input) return;
+
+      const content = input.value.trim();
+      if (!content || !currentThreadId) return;
+
+      await fetch(`${API_BASE}/messaging/threads/${currentThreadId}/messages/`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ content }),
+      });
+
+      input.value = "";
+      await loadMessages(currentThreadId);
+    }
+
+    async function checkUnreadCount() {
+      const res = await fetch(`${API_BASE}/messaging/messages/unread-count/`, {
+        headers: getAuthHeaders(),
+      });
+      const data = await res.json();
+      const badge = document.getElementById("unread-count");
+      const audio = document.getElementById("notif-sound");
+
+      if (badge) {
+        const newCount = data.unread_count;
+
+        if (newCount > lastUnreadCount) {
+          if (audio) audio.play();
+          badge.classList.add("pulse");
+          setTimeout(() => badge.classList.remove("pulse"), 1000);
+        }
+
+        badge.textContent = newCount > 0 ? `🔔 ${newCount}` : "";
+        lastUnreadCount = newCount;
+      }
+    }
+
+    setInterval(checkUnreadCount, 10000);
+    checkUnreadCount();
+    loadThreads();
+
+    const sendBtn = document.querySelector(".message-input button");
+    if (sendBtn) {
+      sendBtn.addEventListener("click", sendMessage);
+    }
+
+    // Scroll Reveal
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealElements.forEach((el) => observer.observe(el));
+
+    // Oval Menu
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    if (navToggle && navMenu) {
+      navToggle.addEventListener("click", () => navMenu.classList.toggle("open"));
+    }
+
+    // Sidebar
+    const sidebar = document.getElementById("sidebarMenu");
+    const logo = document.getElementById("logoTrigger");
+    const closeBtn = document.getElementById("closeSidebar");
+
+    if (logo && sidebar) {
+      logo.addEventListener("click", () => sidebar.classList.toggle("sidebar-open"));
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => sidebar.classList.remove("sidebar-open"));
+    }
+
+    document.addEventListener("click", function (e) {
+      if (sidebar && logo && !sidebar.contains(e.target) && !logo.contains(e.target)) {
+        sidebar.classList.remove("sidebar-open");
+      }
+    });
+  });
+</script>
+</body>
+</html>
